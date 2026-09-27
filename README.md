@@ -112,5 +112,84 @@ sudo wc -l /var/log/suricata/eve.json
 Filter Only Alert Events
 sudo grep '"event_type":"alert"' /var/log/suricata/eve.json | wc -l
 
+Check Rules Loaded
+sudo grep "Loaded\|successfully" /var/log/suricata/suricata.log
+
+View Statistics
+sudo tail -30 /var/log/suricata/stats.log
+
+
+
+Monitoring Results
+
+	•	✅ Total Events Logged: 2,040+
+	•	✅ Alert Events: 41+
+	•	✅ DHCP Alerts: Detected
+	•	✅ Classification: Privacy Violation alerts
+
+Log Files Generated
+
+	•	✅ eve.json - 21MB (detailed alerts)
+	•	✅ fast.log - 16MB (simple alerts)
+	•	✅ stats.log - 16MB (statistics)
+	•	✅ suricata.log - 7.8KB (activity)
+  
+Configuration Files
+
+Main Config File Location
+/etc/suricata/suricata.yaml
+
+Key Configuration Settings
+vars:
+  address-groups:
+    HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
+    EXTERNAL_NET: "!$HOME_NET"
+  
+  port-groups:
+    HTTP_PORTS: "80"
+    SSH_PORTS: "22"
+    DNS_PORTS: "53"
+
+Alert Outputs
+outputs:
+  - fast:
+      enabled: yes
+      filename: fast.log
+  - eve-log:
+      enabled: yes
+      filename: eve.json
+  - console:
+      enabled: yes
+
+Sample Alert Format
+09/23/2026-11:32:49.013927  [**] [1:2022973:1] ET INFO Possible Kali Linux hostname in DHCP Request Packet [**] [Classification: Potential Corporate Privacy Violation] [Priority: 1] {UDP} 10.0.2.5:68 -> 10.0.2.2:67
+
+Eve.json (Detailed Format)
+{
+  "timestamp": "2026-09-23T11:32:49.013927+0100",
+  "flow_id": 925852172502887,
+  "event_type": "alert",
+  "src_ip": "10.0.2.5",
+  "dest_ip": "10.0.2.2",
+  "proto": "UDP",
+  "alert": {
+    "action": "allowed",
+    "signature": "ET INFO Possible Kali Linux hostname in DHCP Request Packet",
+    "category": "Potential Corporate Privacy Violation",
+    "severity": 1
+  }
+}
+
+Key Findings
+
+✅ Suricata successfully monitors network traffic in real-time
+
+✅ 52,856 detection rules are active and operational
+
+✅ Alerts are generated for suspicious activities (DHCP, DNS, HTTP, etc.)
+
+✅ Multiple logging mechanisms work simultaneously
+
+✅ System can scale to monitor larger networks
 
 
