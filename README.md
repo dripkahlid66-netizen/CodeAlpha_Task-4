@@ -274,3 +274,14 @@ sudo wc -l /var/log/suricata/eve.json
 - Logs stored in `/var/log/suricata/`
 
 Done! ✅
+
+Author: Dominic Joshua
+
+
+
+
+
+
+
+
+
