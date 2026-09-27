@@ -235,3 +235,42 @@ outputs:
       enabled: yes
       level: info
       filename: suricata.log
+
+
+## How to Run Suricata IDS
+
+## Quick Start
+
+### 1. Install Suricata
+```bash
+sudo apt update
+sudo apt install suricata -y
+```
+
+### 2. Download Detection Rules
+```bash
+sudo suricata-update
+```
+
+### 3. Start Monitoring
+```bash
+sudo suricata -c /etc/suricata/suricata.yaml -i eth0
+```
+
+### 4. View Alerts (in another terminal)
+```bash
+sudo tail -20 /var/log/suricata/fast.log
+```
+
+### 5. Count Total Alerts
+```bash
+sudo wc -l /var/log/suricata/eve.json
+```
+
+## Expected Results
+- 52,856 detection rules loaded
+- Real-time alerts generated
+- Network traffic monitored continuously
+- Logs stored in `/var/log/suricata/`
+
+Done! ✅
