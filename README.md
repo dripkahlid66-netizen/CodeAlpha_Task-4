@@ -71,3 +71,46 @@ Suricata is a free, open-source network threat detection engine that:
 ```bash
 sudo apt update
 sudo apt install suricata -y
+suricata -V
+Expected output: Suricata 8.0.6 RELEASE
+
+Step 2: Verify Installation
+suricata -V
+
+Step 3: Download Detection Rules
+sudo suricata-update
+This downloads 52,856+ detection rules from Emerging Threats 
+
+Step 4: Verify Rules
+sudo wc -l /var/lib/suricata/rules/suricata.rules
+Expected: ~68,000+ lines (52,856 rules)
+
+RUNNING the IDS
+Terminal 1 - Start Monitoring
+sudo suricata -c /etc/suricata/suricata.yaml -i eth0
+
+Terminal 2 - Generate Traffic
+# Ping test
+ping 8.8.8.8 -c 10
+
+# Network scan
+sudo nmap -sV localhost
+
+# Web request
+curl http://www.google.com
+
+Checking Alerts & Results
+View Simple Alerts
+sudo tail -20 /var/log/suricata/fast.log
+
+View Detailed JSON Alerts
+sudo tail -10 /var/log/suricata/eve.json
+
+Count Total Alerts
+sudo wc -l /var/log/suricata/eve.json
+
+Filter Only Alert Events
+sudo grep '"event_type":"alert"' /var/log/suricata/eve.json | wc -l
+
+
+
