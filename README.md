@@ -194,6 +194,7 @@ Key Findings
 
 
 ## configuration/suricata.yaml
+
 # Suricata Configuration - Sample for CodeAlpha Task 4
 suricata-version: "8.0"
 
