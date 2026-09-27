@@ -193,3 +193,45 @@ Key Findings
 ✅ System can scale to monitor larger networks
 
 
+##configuration/suricata.yaml
+
+# Suricata Configuration - Sample for CodeAlpha Task 4
+suricata-version: "8.0"
+
+vars:
+  address-groups:
+    HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
+    EXTERNAL_NET: "!$HOME_NET"
+    HTTP_SERVERS: "$HOME_NET"
+    SMTP_SERVERS: "$HOME_NET"
+    SQL_SERVERS: "$HOME_NET"
+    DNS_SERVERS: "$HOME_NET"
+
+  port-groups:
+    HTTP_PORTS: "80"
+    SHELLCODE_PORTS: "!80"
+    SSH_PORTS: "22"
+    DNS_PORTS: "53"
+    FTP_PORTS: "21"
+
+rule-files:
+  - suricata.rules
+
+outputs:
+  - fast:
+      enabled: yes
+      filename: fast.log
+      append: yes
+
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: eve.json
+
+  - console:
+      enabled: yes
+
+  - file:
+      enabled: yes
+      level: info
+      filename: suricata.log
